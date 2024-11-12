@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.Serialization;
 using System.Xml;
-using System.Xml.Serialization;
 
 namespace Utilities.SaveSystem
 {
-    internal class SaveSystem
+    internal class SaveSystem<T> where T : SaveData
     {
         private const string SAVE_EXT = ".txt";
         private readonly string _saveFile;
@@ -19,24 +11,41 @@ namespace Utilities.SaveSystem
         public SaveSystem()
         {
             _saveFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "save", SAVE_EXT);
-
         }
 
-        public void Save(SaveData data)
+        public void Save(T data)
         {
-            FileStream fs = new(_saveFile, FileMode.OpenOrCreate);
-            XmlDictionaryWriter writer = XmlDictionaryWriter.CreateTextWriter(fs);
+            using (FileStream fs = new(_saveFile, FileMode.OpenOrCreate))
+            {
+                XmlDictionaryWriter writer = XmlDictionaryWriter.CreateTextWriter(fs);
 
-            DataContractSerializer serializer = new(data.GetType(), knownTypes: data.KnownTypes);
-            serializer.WriteObject(writer, data);
+                DataContractSerializer serializer = new(data.GetType(), knownTypes: data.KnownTypes);
+                serializer.WriteObject(writer, data);
 
-            writer.Close();
-            fs.Close();
+                writer.Close();
+            }
         }
 
-        public SaveData Load()
+        /// <summary>
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="FileNotFoundException"></exception>
+        public T? Load()
         {
-            return null;
+            if (!File.Exists(_saveFile))
+                throw new FileNotFoundException();
+
+            using (FileStream fs = new(_saveFile, FileMode.Open))
+            {
+                XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
+                
+                var serializer = new DataContractSerializer(typeof(T));
+                T? data = serializer.ReadObject(reader) as T;
+                
+                reader.Close();
+
+                return data;
+            }
         }
     }
 }
