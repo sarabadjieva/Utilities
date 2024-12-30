@@ -3,7 +3,7 @@
 namespace Utilities.SaveSystem
 {
     [DataContract]
-    public abstract class SaveData : IExtensibleDataObject
+    public class SaveData : IExtensibleDataObject
     {
         public ExtensionDataObject? ExtensionData { get; set; }
 

@@ -10,7 +10,7 @@ namespace Utilities.SaveSystem
 
         public SaveSystem()
         {
-            _saveFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "save", SAVE_EXT);
+            _saveFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "save" + SAVE_EXT);
         }
 
         public void Save(T data)
@@ -33,7 +33,7 @@ namespace Utilities.SaveSystem
         public T? Load()
         {
             if (!File.Exists(_saveFile))
-                throw new FileNotFoundException();
+                return null;
 
             using (FileStream fs = new(_saveFile, FileMode.Open))
             {
