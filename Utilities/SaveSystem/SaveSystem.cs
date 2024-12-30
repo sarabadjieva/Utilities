@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace Utilities.SaveSystem
 {
-    internal class SaveSystem<T> where T : SaveData
+    public class SaveSystem<T> where T : SaveData
     {
         private const string SAVE_EXT = ".txt";
         private readonly string _saveFile;
