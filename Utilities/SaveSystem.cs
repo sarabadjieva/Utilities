@@ -8,7 +8,7 @@ namespace Utilities
 
     public static class SaveSystem<T> where T : class, IExtensibleDataObject, new()
     {
-        private static readonly string _defaultPath = $"{typeof(T).Name}.json";
+        private static readonly string _defaultPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{typeof(T).Name}.json");
         private static readonly JsonSerializerOptions _jsonSerializerOptions = new() { WriteIndented = true };
 
         private static SaveFormat _format = SaveFormat.JSON;
