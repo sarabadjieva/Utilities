@@ -1,4 +1,4 @@
-﻿namespace Utilities.Logger
+﻿namespace Utilities
 {
     public class Logger
     {
@@ -21,7 +21,7 @@
             _logFile = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + LOG_EXT;
 
             // Log file header line
-            if (!System.IO.File.Exists(_logFile))
+            if (!File.Exists(_logFile))
             {
                 WriteLine(Now + " log file created");
             }
@@ -59,7 +59,7 @@
             {
                 if (string.IsNullOrWhiteSpace(message))
                     return;
-                
+
                 lock (_lock)
                 {
                     using StreamWriter writer = new(_logFile);
