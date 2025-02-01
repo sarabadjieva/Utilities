@@ -19,7 +19,10 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '9.0.x'
-
+    - name: Configure NuGet
+      run: |
+        dotnet nuget add source https://nuget.pkg.github.com/sarabadjieva/index.json -n github -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+    
     - name: Restore dependencies
       run: dotnet restore
 
@@ -32,4 +35,4 @@ jobs:
     - name: Publish NuGet package
       env:
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-      run: dotnet nuget push ./nupkg/*.nupkg -k $NUGET_API_KEY -s https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+      run: dotnet nuget push bin/Release/*.nupkg -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/sarabadjieva/index.json
