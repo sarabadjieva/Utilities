@@ -11,4 +11,16 @@
     <PackageTags>utilities;stefaniarabadjieva</PackageTags>
     <RepositoryUrl>https://github.com/sarabadjieva/Utilities</RepositoryUrl>
   </PropertyGroup>
+	
+	<ItemGroup>
+		<Folder Include="Algorithms\" />
+		<Folder Include="FileWatcher\" />
+		<Folder Include="Cache\" />
+		<Folder Include="HTTPClient\" />
+		<Folder Include="Notifications\" />
+		<Folder Include="ObjectPool\" />
+		<Folder Include="SaveSystem\" />
+	</ItemGroup>
+
+
 </Project>
